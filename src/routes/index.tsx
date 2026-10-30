@@ -133,7 +133,9 @@ function TerminalMock() {
               {trades.map((t) => (
                 <tr key={t.pair} className="border-b border-border/60 last:border-0">
                   <td className="px-2 py-2 text-foreground">{t.pair}</td>
-                  <td className={`px-2 py-2 ${t.side === "LONG" ? "text-pnl-positive" : "text-pnl-negative"}`}>
+                  <td
+                    className={`px-2 py-2 ${t.side === "LONG" ? "text-pnl-positive" : "text-muted-foreground"}`}
+                  >
                     {t.side}
                   </td>
                   <td className="px-2 py-2 text-right text-muted-foreground">{t.gross}</td>
