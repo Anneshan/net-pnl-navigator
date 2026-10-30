@@ -1,4 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -407,6 +413,27 @@ function Pricing() {
             <p className="mt-3 text-center font-mono text-xs text-muted-foreground">
               Guaranteed secure checkout via UPI / Razorpay
             </p>
+
+            <div className="mt-6 rounded-lg border border-border bg-background p-4">
+              <div className="flex items-start gap-3">
+                <CheckIcon />
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Bulletproof formulas</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    All complex math cells are locked by default so you can&rsquo;t accidentally break the sheet.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 flex items-start gap-3 border-t border-border/60 pt-4">
+                <CheckIcon />
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Instant setup</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    Includes a 3-step quick-start guide to duplicate the file safely into your own Google Drive.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -445,6 +472,113 @@ function Footer() {
   );
 }
 
+const faqs = [
+  {
+    q: "Do I need Microsoft Excel?",
+    a: "No. This journal is built natively for Google Sheets. You only need a free Google account to duplicate the template and start using it immediately.",
+  },
+  {
+    q: "Is this a subscription?",
+    a: "No. The ₹999 launch price is a flat, one-time payment. You own the sheet forever.",
+  },
+  {
+    q: "Does this connect to my exchange API?",
+    a: "No. To ensure absolute security of your exchange API keys, this is a manual entry journal. It takes less than 15 seconds to log a trade, forcing you to consciously review your execution.",
+  },
+  {
+    q: "How do I get access after paying?",
+    a: "Upon successful payment via UPI or card, you will instantly be redirected to a secure PDF containing your private access link and setup instructions.",
+  },
+];
+
+function FAQ() {
+  return (
+    <section id="faq" className="border-t border-border py-16 sm:py-24">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+          Questions, answered
+        </p>
+        <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Everything you need to know before you buy
+        </h2>
+
+        <Accordion
+          type="single"
+          collapsible
+          className="panel mt-10 px-4 sm:px-6"
+        >
+          {faqs.map((f, i) => (
+            <AccordionItem key={f.q} value={`faq-${i}`} className="border-border/60 last:border-0">
+              <AccordionTrigger className="py-5 text-left font-display text-base font-semibold text-foreground hover:no-underline sm:text-lg">
+                {f.q}
+              </AccordionTrigger>
+              <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground">
+                {f.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </section>
+  );
+}
+
+const fitList = [
+  "System-driven traders who log every execution",
+  "Risk managers who treat position sizing as non-negotiable",
+  "Anyone treating crypto as a business, not a lottery ticket",
+];
+
+const notFitList = [
+  "Gamblers looking for 100x leverage signal groups",
+  "Meme-coin lottery players chasing the next pump",
+  "Anyone expecting guaranteed returns without doing the math",
+];
+
+function WhoFor() {
+  return (
+    <section className="border-t border-border py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+          Is this for you?
+        </p>
+        <h2 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Who this is for (and who it isn&rsquo;t for)
+        </h2>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <div className="panel border-pnl-positive/30 p-6 sm:p-8">
+            <p className="font-mono text-xs uppercase tracking-widest text-pnl-positive">
+              ✓ This is for you if you are
+            </p>
+            <ul className="mt-5 space-y-3">
+              {fitList.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-foreground">
+                  <CheckIcon />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="panel border-pnl-negative/30 p-6 sm:p-8">
+            <p className="font-mono text-xs uppercase tracking-widest text-pnl-negative">
+              ✕ This is NOT for you if you are
+            </p>
+            <ul className="mt-5 space-y-3">
+              {notFitList.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
+                  <span className="mt-0.5 font-mono text-pnl-negative">✕</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -454,6 +588,8 @@ function Index() {
         <Problem />
         <Solution />
         <Authority />
+        <WhoFor />
+        <FAQ />
         <Pricing />
       </main>
       <Footer />
