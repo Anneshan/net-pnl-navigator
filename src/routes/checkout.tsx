@@ -135,7 +135,10 @@ function Checkout() {
     }
 
     if (!result.ok) {
-      setErrorMsg(errorCopy[result.error] ?? errorCopy.order_failed);
+      const msg =
+        (result.error && errorCopy[result.error]) ??
+        "We couldn't start your order. Please try again in a moment.";
+      setErrorMsg(msg);
       setPhase("error");
       return;
     }
