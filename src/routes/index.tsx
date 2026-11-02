@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Accordion,
   AccordionContent,
@@ -193,13 +193,16 @@ function Hero() {
           </p>
           <h1 className="mt-4 font-display text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem]">
             Stop Bleeding Capital on Trades You Actually{" "}
-            <span className="text-pnl-negative">&ldquo;Won.&rdquo;</span>
+            <span className="text-pnl-negative">&ldquo;Won.&rdquo;</span> And Stop Surprising Your
+            CA at Tax Time.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            The crypto market isn&rsquo;t rigged against you — your math is. Track your true{" "}
-            <span className="font-semibold text-foreground">Net PnL</span>, automatically calculate hidden fees, and
-            size your positions like an institution with the{" "}
-            <span className="font-semibold text-foreground">Amniverse Crypto Trading Journal</span>.
+            Track true{" "}
+            <span className="font-semibold text-foreground">Net PnL</span>, size positions like an
+            institution, and automatically audit your{" "}
+            <span className="font-semibold text-foreground">Section 115BBH tax liability</span> with
+            the{" "}
+            <span className="font-semibold text-foreground">Amniverse Crypto Operating System</span>.
           </p>
           <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <a href="#pricing" className="btn-primary px-7 py-3.5 text-base">
@@ -292,6 +295,11 @@ const features = [
     title: "The Visual Analytics Dashboard",
     body: "A fully automated rolling 30-day dashboard that visualizes your Win/Loss ratio, equity curve, and strategy heatmap so you know exactly which setups are actually making you money.",
   },
+  {
+    kicker: "Module 04",
+    title: "Section 115BBH Tax Engine",
+    body: "Automates Section 115BBH 30% VDA tax calculations, enforces zero loss set-off rules, reconciles Section 194S TDS credits, and exports ready-to-file Schedule VDA reports for ITR-2/ITR-3.",
+  },
 ];
 
 function Solution() {
@@ -309,7 +317,7 @@ function Solution() {
           guesswork from your execution. It forces you to manage risk and exposes your true profitability.
         </p>
 
-        <div className="mt-10 grid gap-4 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f) => (
             <div key={f.kicker} className="panel flex flex-col p-6">
               <p className="font-mono text-xs uppercase tracking-widest text-primary">{f.kicker}</p>
@@ -407,9 +415,9 @@ function Pricing() {
               </div>
             </div>
 
-            <a href="#top" className="btn-primary mt-8 w-full px-6 py-4 text-base">
+            <Link to="/checkout" className="btn-primary mt-8 w-full px-6 py-4 text-base">
               Download the Journal Now
-            </a>
+            </Link>
             <p className="mt-3 text-center font-mono text-xs text-muted-foreground">
               Guaranteed secure checkout via UPI / Razorpay
             </p>
@@ -447,9 +455,9 @@ function Footer() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <Logo />
-          <a href="#pricing" className="btn-primary px-5 py-2.5 text-sm">
+          <Link to="/checkout" className="btn-primary px-5 py-2.5 text-sm">
             Get Immediate Access — ₹999
-          </a>
+          </Link>
         </div>
         <div className="mt-10 border-t border-border pt-8">
           <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
