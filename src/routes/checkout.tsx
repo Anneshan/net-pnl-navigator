@@ -87,7 +87,9 @@ function Logo() {
   );
 }
 
-const errorCopy: Record<string, string> = {
+type OrderError = "not_configured" | "order_failed" | "invalid_input";
+
+const errorCopy: { [K in OrderError]: string } = {
   not_configured:
     "Checkout is being set up on our side — payment credentials are not connected yet. Please try again shortly.",
   order_failed: "We couldn't start your order. Please try again in a moment.",
