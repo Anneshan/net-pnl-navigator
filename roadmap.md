@@ -5,3 +5,5 @@
 - [x] Razorpay checkout page at /checkout with gateway integration (keys connected; order creation + signature verification verified working)
 - [ ] Full test payment with Razorpay test-mode instruments (needs a test card/UPI inside the Razorpay window)
 - [ ] Post-payment access delivery (private PDF/link) — needs the user's delivery asset
+- [ ] WhatsApp customer-support bot — use a number registered with WhatsApp Business; personal-only WhatsApp accounts are not supported
+- [ ] Connect this project to GitHub — user must complete Git sync from Project settings → Git; Git sync creates a new private repository
