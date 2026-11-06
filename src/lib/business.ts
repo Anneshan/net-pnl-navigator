@@ -4,8 +4,8 @@
 export const business = {
   brand: "Amniverse Advisory",
   // Legal name exactly as registered with Razorpay (proprietor name or company name).
-  legalName: "Amniverse Advisory", // TODO: e.g. "Anneshan Sharma (Proprietor, Amniverse Advisory)"
-  supportEmail: "TODO-support@yourdomain.com", // TODO: an inbox you actually read
+  legalName: "Amniverse Advisory",
+  supportEmail: "amniverseadvisory@gmail.com",
   whatsappNumber: "918134959078", // digits only, with country code
   address: "TODO: Full registered address, City, State, PIN, India",
   jurisdictionCity: "TODO: Your city", // courts for disputes
