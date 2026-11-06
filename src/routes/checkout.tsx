@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { createOrder, verifyPayment } from "@/lib/razorpay.functions";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PolicyLinks } from "@/components/LegalPage";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -57,9 +58,7 @@ function loadRazorpayScript(): Promise<boolean> {
   if (typeof window === "undefined") return Promise.resolve(false);
   if (window.Razorpay) return Promise.resolve(true);
   return new Promise((resolve) => {
-    const existing = document.querySelector<HTMLScriptElement>(
-      `script[src="${RZP_SCRIPT_URL}"]`,
-    );
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${RZP_SCRIPT_URL}"]`);
     if (existing) {
       existing.addEventListener("load", () => resolve(Boolean(window.Razorpay)));
       existing.addEventListener("error", () => resolve(false));
@@ -104,6 +103,7 @@ function Checkout() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [paymentId, setPaymentId] = useState<string | null>(null);
+  const [accessUrl, setAccessUrl] = useState<string | null>(null);
   const scriptReady = useRef<Promise<boolean> | null>(null);
 
   useEffect(() => {
@@ -168,9 +168,12 @@ function Checkout() {
             razorpayOrderId: response.razorpay_order_id,
             razorpayPaymentId: response.razorpay_payment_id,
             razorpaySignature: response.razorpay_signature,
+            name: form.name,
+            email: form.email,
           },
-        });
+        }).catch(() => ({ ok: false as const, error: "verify_failed" as const }));
         if (verification.ok) {
+          setAccessUrl(verification.accessUrl);
           setPaymentId(response.razorpay_payment_id);
           setPhase("success");
         } else {
@@ -219,9 +222,20 @@ function Checkout() {
             <h2 className="mt-4 font-display text-2xl font-bold text-foreground">
               You're in — welcome to the desk.
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              ₹999 received. Your private access link and setup instructions will be delivered to{" "}
-              <span className="font-semibold text-foreground">{form.email}</span>.
+            {accessUrl ? (
+              <a
+                href={accessUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-primary mt-6 inline-block px-6 py-3 text-base"
+              >
+                Open your journal now →
+              </a>
+            ) : null}
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              ₹999 received. A copy of your access link and setup instructions is on its way to{" "}
+              <span className="font-semibold text-foreground">{form.email}</span> (check
+              spam/promotions if you don&rsquo;t see it in a few minutes).
             </p>
             <p className="mt-2 font-mono text-[11px] text-muted-foreground">
               Payment ID: {paymentId}
@@ -327,6 +341,21 @@ function Checkout() {
               <p className="mt-3 text-center font-mono text-[11px] text-muted-foreground">
                 Guaranteed secure checkout via Razorpay · UPI / cards / netbanking
               </p>
+              <p className="mt-3 text-center text-[11px] leading-relaxed text-muted-foreground">
+                By paying you agree to our{" "}
+                <Link to="/terms" className="underline">
+                  Terms
+                </Link>
+                ,{" "}
+                <Link to="/refund-policy" className="underline">
+                  Refund Policy
+                </Link>{" "}
+                and{" "}
+                <Link to="/privacy" className="underline">
+                  Privacy Policy
+                </Link>
+                .
+              </p>
             </div>
           </div>
         )}
@@ -339,6 +368,7 @@ function Checkout() {
             investment advisor. This tool is for educational purposes only and does not constitute
             financial advice. Cryptocurrency trading carries extreme risk.
           </p>
+          <PolicyLinks className="mt-4 justify-center" />
         </div>
       </footer>
     </div>

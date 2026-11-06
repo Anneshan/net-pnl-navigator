@@ -5,6 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { PolicyLinks } from "@/components/LegalPage";
+import { whatsappLink } from "@/lib/business";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -75,7 +77,10 @@ function Nav() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Logo />
         <div className="flex items-center gap-3">
-          <a href="#pricing" className="hidden text-sm text-muted-foreground hover:text-foreground sm:block">
+          <a
+            href="#inside"
+            className="hidden text-sm text-muted-foreground hover:text-foreground sm:block"
+          >
             What's inside
           </a>
           <a href="#pricing" className="btn-primary px-4 py-2 text-sm">
@@ -89,11 +94,51 @@ function Nav() {
 
 function TerminalMock() {
   const trades = [
-    { pair: "BTC/USDT·P", side: "LONG", gross: "+₹2,140", fees: "−₹186", funding: "−₹64", net: "+₹1,890", win: true },
-    { pair: "ETH/USDT·P", side: "LONG", gross: "+₹980", fees: "−₹142", funding: "−₹48", net: "+₹790", win: true },
-    { pair: "SOL/USDT·P", side: "SHORT", gross: "+₹1,460", fees: "−₹201", funding: "−₹97", net: "+₹1,162", win: true },
-    { pair: "DOGE/USDT·P", side: "LONG", gross: "+₹640", fees: "−₹173", funding: "−₹120", net: "+₹347", win: true },
-    { pair: "XRP/USDT·P", side: "LONG", gross: "+₹520", fees: "−₹188", funding: "−₹142", net: "+₹190", win: true },
+    {
+      pair: "BTC/USDT·P",
+      side: "LONG",
+      gross: "+₹2,140",
+      fees: "−₹186",
+      funding: "−₹64",
+      net: "+₹1,890",
+      win: true,
+    },
+    {
+      pair: "ETH/USDT·P",
+      side: "LONG",
+      gross: "+₹980",
+      fees: "−₹142",
+      funding: "−₹48",
+      net: "+₹790",
+      win: true,
+    },
+    {
+      pair: "SOL/USDT·P",
+      side: "SHORT",
+      gross: "+₹1,460",
+      fees: "−₹201",
+      funding: "−₹97",
+      net: "+₹1,162",
+      win: true,
+    },
+    {
+      pair: "DOGE/USDT·P",
+      side: "LONG",
+      gross: "+₹640",
+      fees: "−₹173",
+      funding: "−₹120",
+      net: "+₹347",
+      win: true,
+    },
+    {
+      pair: "XRP/USDT·P",
+      side: "LONG",
+      gross: "+₹520",
+      fees: "−₹188",
+      funding: "−₹142",
+      net: "+₹190",
+      win: true,
+    },
   ];
 
   return (
@@ -103,22 +148,32 @@ function TerminalMock() {
         <span className="h-2.5 w-2.5 rounded-full bg-accent/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-pnl-positive/70" />
         <span className="ml-3 font-mono text-[11px] tracking-wider text-muted-foreground">
-          amniverse_journal.xlsx — NET PnL LEDGER
+          Amniverse Journal · Google Sheets — NET PnL LEDGER
         </span>
       </div>
 
       <div className="space-y-4 p-4 sm:p-6">
         <div className="grid grid-cols-3 gap-3">
           <div className="rounded-lg border border-border bg-background p-3">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Net PnL · 30d</p>
-            <p className="mt-1 font-mono text-lg font-semibold text-pnl-positive sm:text-xl">+₹4,379</p>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Net PnL · 30d
+            </p>
+            <p className="mt-1 font-mono text-lg font-semibold text-pnl-positive sm:text-xl">
+              +₹4,379
+            </p>
           </div>
           <div className="rounded-lg border border-border bg-background p-3">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Hidden Costs</p>
-            <p className="mt-1 font-mono text-lg font-semibold text-pnl-negative sm:text-xl">−₹1,561</p>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Hidden Costs
+            </p>
+            <p className="mt-1 font-mono text-lg font-semibold text-pnl-negative sm:text-xl">
+              −₹1,561
+            </p>
           </div>
           <div className="rounded-lg border border-border bg-background p-3">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Win Rate</p>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Win Rate
+            </p>
             <p className="mt-1 font-mono text-lg font-semibold text-foreground sm:text-xl">60%</p>
           </div>
         </div>
@@ -145,9 +200,15 @@ function TerminalMock() {
                     {t.side}
                   </td>
                   <td className="px-2 py-2 text-right text-muted-foreground">{t.gross}</td>
-                  <td className="hidden px-2 py-2 text-right text-pnl-negative sm:table-cell">{t.fees}</td>
-                  <td className="hidden px-2 py-2 text-right text-pnl-negative sm:table-cell">{t.funding}</td>
-                  <td className={`px-2 py-2 text-right font-semibold ${t.win ? "text-pnl-positive" : "text-pnl-negative"}`}>
+                  <td className="hidden px-2 py-2 text-right text-pnl-negative sm:table-cell">
+                    {t.fees}
+                  </td>
+                  <td className="hidden px-2 py-2 text-right text-pnl-negative sm:table-cell">
+                    {t.funding}
+                  </td>
+                  <td
+                    className={`px-2 py-2 text-right font-semibold ${t.win ? "text-pnl-positive" : "text-pnl-negative"}`}
+                  >
                     {t.net}
                   </td>
                 </tr>
@@ -158,10 +219,17 @@ function TerminalMock() {
 
         <div className="rounded-lg border border-border bg-background p-3">
           <div className="flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Equity Curve</p>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Equity Curve
+            </p>
             <p className="font-mono text-[10px] text-pnl-positive">+8.4% net</p>
           </div>
-          <svg viewBox="0 0 320 64" className="mt-2 h-16 w-full" preserveAspectRatio="none" aria-hidden="true">
+          <svg
+            viewBox="0 0 320 64"
+            className="mt-2 h-16 w-full"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
             <polyline
               points="0,52 30,48 60,50 90,38 120,42 150,30 180,34 210,22 240,26 270,14 320,8"
               fill="none"
@@ -184,7 +252,10 @@ function TerminalMock() {
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24">
-      <div className="terminal-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
+      <div
+        className="terminal-grid pointer-events-none absolute inset-0 opacity-60"
+        aria-hidden="true"
+      />
       <div className="hero-glow pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1.05fr_1fr]">
         <div>
@@ -197,12 +268,11 @@ function Hero() {
             CA at Tax Time.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Track true{" "}
-            <span className="font-semibold text-foreground">Net PnL</span>, size positions like an
-            institution, and automatically audit your{" "}
+            Track true <span className="font-semibold text-foreground">Net PnL</span>, size
+            positions like an institution, and automatically audit your{" "}
             <span className="font-semibold text-foreground">Section 115BBH tax liability</span> with
             the{" "}
-            <span className="font-semibold text-foreground">Amniverse Crypto Operating System</span>.
+            <span className="font-semibold text-foreground">Amniverse Crypto Trading Journal</span>.
           </p>
           <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <a href="#pricing" className="btn-primary px-7 py-3.5 text-base">
@@ -248,12 +318,13 @@ function Problem() {
           You aren&rsquo;t just trading against the market. You are trading against the exchange.
         </h2>
         <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground">
-          Most retail crypto traders look at their Gross PnL, see a green number, and assume they are profitable.{" "}
+          Most retail crypto traders look at their Gross PnL, see a green number, and assume they
+          are profitable.{" "}
           <span className="font-semibold text-foreground">They are lying to themselves.</span>
         </p>
         <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
-          If you are trading Spot or Perpetual Futures without tracking the hidden costs, you are slowly draining
-          your account through:
+          If you are trading Spot or Perpetual Futures without tracking the hidden costs, you are
+          slowly draining your account through:
         </p>
 
         <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -267,10 +338,13 @@ function Problem() {
         </div>
 
         <div className="panel mt-10 bg-terminal p-6 sm:p-8">
-          <p className="font-display text-xl font-semibold text-foreground sm:text-2xl">The Result?</p>
+          <p className="font-display text-xl font-semibold text-foreground sm:text-2xl">
+            The Result?
+          </p>
           <p className="mt-3 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            You win <span className="font-mono font-semibold text-pnl-positive">6 out of 10 trades</span>, but your
-            portfolio balance keeps{" "}
+            You win{" "}
+            <span className="font-mono font-semibold text-pnl-positive">6 out of 10 trades</span>,
+            but your portfolio balance keeps{" "}
             <span className="font-mono font-semibold text-pnl-negative">going down.</span>
           </p>
         </div>
@@ -306,22 +380,23 @@ function Solution() {
   return (
     <section className="border-t border-border py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
-          The solution
-        </p>
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary">The solution</p>
         <h2 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           The Amniverse Crypto Trading Journal
         </h2>
         <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground">
-          Built by the analytical desk at Amniverse Advisory, this automated Google Sheets engine removes the
-          guesswork from your execution. It forces you to manage risk and exposes your true profitability.
+          Built by the analytical desk at Amniverse Advisory, this automated Google Sheets engine
+          removes the guesswork from your execution. It forces you to manage risk and exposes your
+          true profitability.
         </p>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f) => (
             <div key={f.kicker} className="panel flex flex-col p-6">
               <p className="font-mono text-xs uppercase tracking-widest text-primary">{f.kicker}</p>
-              <h3 className="mt-3 font-display text-xl font-semibold leading-snug text-foreground">{f.title}</h3>
+              <h3 className="mt-3 font-display text-xl font-semibold leading-snug text-foreground">
+                {f.title}
+              </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
             </div>
           ))}
@@ -336,7 +411,10 @@ function Authority() {
     <section className="border-t border-border py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="panel relative overflow-hidden p-8 sm:p-12">
-          <div className="hero-glow pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" />
+          <div
+            className="hero-glow pointer-events-none absolute inset-0 opacity-70"
+            aria-hidden="true"
+          />
           <div className="relative max-w-3xl">
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
               Why trust this system?
@@ -345,16 +423,20 @@ function Authority() {
               Amniverse Advisory is a dedicated financial research and analytics publisher.
             </h2>
             <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-              We don&rsquo;t sell &ldquo;get-rich-quick&rdquo; signals, algorithmic trading bots, or VIP Telegram
-              groups. We build the{" "}
+              We don&rsquo;t sell &ldquo;get-rich-quick&rdquo; signals, algorithmic trading bots, or
+              VIP Telegram groups. We build the{" "}
               <span className="font-semibold text-foreground">
                 strict mathematical frameworks and data tools
               </span>{" "}
               that separate professional execution from retail gambling.
             </p>
             <div className="mt-8 grid grid-cols-1 gap-3 font-mono text-xs text-muted-foreground sm:grid-cols-3">
-              <span className="rounded-lg border border-border bg-background px-4 py-3">✕ No signal groups</span>
-              <span className="rounded-lg border border-border bg-background px-4 py-3">✕ No trading bots</span>
+              <span className="rounded-lg border border-border bg-background px-4 py-3">
+                ✕ No signal groups
+              </span>
+              <span className="rounded-lg border border-border bg-background px-4 py-3">
+                ✕ No trading bots
+              </span>
               <span className="rounded-lg border border-border bg-background px-4 py-3">
                 ✓ Math frameworks &amp; data tools
               </span>
@@ -370,6 +452,7 @@ const included = [
   "The Amniverse Crypto Trading Journal (Spot & Perps)",
   "The Automated Position Sizing Tool",
   "The Visual Performance Dashboard",
+  "The Section 115BBH Tax Engine (Schedule VDA export)",
   "Step-by-step instructions to lock your formulas and secure your data",
 ];
 
@@ -378,7 +461,9 @@ function Pricing() {
     <section id="pricing" className="border-t border-border py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">The offer</p>
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+            The offer
+          </p>
           <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Stop trading blind. Lock down your risk management today.
           </h2>
@@ -388,7 +473,9 @@ function Pricing() {
           <div className="hero-glow pointer-events-none absolute inset-0" aria-hidden="true" />
           <div className="relative">
             <div className="flex items-baseline justify-between gap-4">
-              <h3 className="font-display text-xl font-semibold text-foreground">Instant download</h3>
+              <h3 className="font-display text-xl font-semibold text-foreground">
+                Instant download
+              </h3>
               <span className="rounded-full border border-pnl-positive/40 bg-pnl-positive/10 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-pnl-positive">
                 Launch price
               </span>
@@ -405,7 +492,9 @@ function Pricing() {
 
             <div className="mt-8 flex items-end gap-4 border-t border-border pt-6">
               <div>
-                <p className="font-mono text-xs text-muted-foreground line-through">Regular Price ₹2,499</p>
+                <p className="font-mono text-xs text-muted-foreground line-through">
+                  Regular Price ₹2,499
+                </p>
                 <p className="font-display text-4xl font-bold text-foreground">
                   ₹999
                   <span className="ml-2 font-mono text-xs font-normal text-muted-foreground">
@@ -428,7 +517,8 @@ function Pricing() {
                 <div>
                   <p className="text-sm font-semibold text-foreground">Bulletproof formulas</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    All complex math cells are locked by default so you can&rsquo;t accidentally break the sheet.
+                    All complex math cells are locked by default so you can&rsquo;t accidentally
+                    break the sheet.
                   </p>
                 </div>
               </div>
@@ -437,7 +527,8 @@ function Pricing() {
                 <div>
                   <p className="text-sm font-semibold text-foreground">Instant setup</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    Includes a 3-step quick-start guide to duplicate the file safely into your own Google Drive.
+                    Includes a 3-step quick-start guide to duplicate the file safely into your own
+                    Google Drive.
                   </p>
                 </div>
               </div>
@@ -464,13 +555,15 @@ function Footer() {
             Legal disclaimer &amp; terms of use
           </p>
           <p className="mt-3 max-w-4xl text-xs leading-relaxed text-muted-foreground">
-            Amniverse Advisory and its proprietor are strictly financial software and education publishers, NOT
-            registered financial or investment advisors. This spreadsheet is a mathematical tool provided for
-            educational and informational purposes only. It does not constitute financial advice, trade
-            recommendations, or an endorsement of any digital asset. Cryptocurrency and derivatives trading carry
-            extreme risk, and you can lose your entire capital. By using this tool, you acknowledge that you are
-            solely responsible for your own trading decisions, risk management, and tax liabilities.
+            Amniverse Advisory and its proprietor are strictly financial software and education
+            publishers, NOT registered financial or investment advisors. This spreadsheet is a
+            mathematical tool provided for educational and informational purposes only. It does not
+            constitute financial advice, trade recommendations, or an endorsement of any digital
+            asset. Cryptocurrency and derivatives trading carry extreme risk, and you can lose your
+            entire capital. By using this tool, you acknowledge that you are solely responsible for
+            your own trading decisions, risk management, and tax liabilities.
           </p>
+          <PolicyLinks className="mt-6" />
           <p className="mt-6 font-mono text-xs text-muted-foreground">
             © {new Date().getFullYear()} Amniverse Advisory. All rights reserved.
           </p>
@@ -483,7 +576,7 @@ function Footer() {
 function WhatsAppFloat() {
   return (
     <a
-      href="https://wa.me/918134959078?text=Hi%20Amniverse%20Advisory%2C%20I%20have%20a%20question%20about%20the%20Crypto%20Trading%20Journal."
+      href={whatsappLink()}
       target="_blank"
       rel="noreferrer"
       aria-label="Chat with Amniverse Advisory on WhatsApp"
@@ -513,7 +606,7 @@ const faqs = [
   },
   {
     q: "How do I get access after paying?",
-    a: "Upon successful payment via UPI or card, you will instantly be redirected to a secure PDF containing your private access link and setup instructions.",
+    a: "Right after a successful UPI or card payment, your private access link appears on the confirmation screen, and the same link plus setup instructions is emailed to you.",
   },
 ];
 
@@ -528,11 +621,7 @@ function FAQ() {
           Everything you need to know before you buy
         </h2>
 
-        <Accordion
-          type="single"
-          collapsible
-          className="panel mt-10 px-4 sm:px-6"
-        >
+        <Accordion type="single" collapsible className="panel mt-10 px-4 sm:px-6">
           {faqs.map((f, i) => (
             <AccordionItem key={f.q} value={`faq-${i}`} className="border-border/60 last:border-0">
               <AccordionTrigger className="py-5 text-left font-display text-base font-semibold text-foreground hover:no-underline sm:text-lg">
@@ -579,7 +668,10 @@ function WhoFor() {
             </p>
             <ul className="mt-5 space-y-3">
               {fitList.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-foreground">
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm leading-relaxed text-foreground"
+                >
                   <CheckIcon />
                   <span>{item}</span>
                 </li>
@@ -592,7 +684,10 @@ function WhoFor() {
             </p>
             <ul className="mt-5 space-y-3">
               {notFitList.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground"
+                >
                   <span className="mt-0.5 font-mono text-pnl-negative">✕</span>
                   <span>{item}</span>
                 </li>

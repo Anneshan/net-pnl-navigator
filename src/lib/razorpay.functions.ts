@@ -32,6 +32,15 @@ export const createOrder = createServerFn({ method: "POST" })
         phone: data.phone,
         product: "crypto-trading-journal",
       });
+      const { recordCreatedOrder } = await import("./fulfillment.server");
+      await recordCreatedOrder({
+        orderId: order.id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        amount: order.amount,
+        currency: order.currency,
+      });
       const { keyId } = getRazorpayCredentials();
       return {
         ok: true,
@@ -51,15 +60,19 @@ export const createOrder = createServerFn({ method: "POST" })
     }
   });
 
-export type VerifyPaymentInput = z.infer<typeof verifySchema>;
-
 const verifySchema = z.object({
   razorpayOrderId: z.string().trim().min(1).max(120),
   razorpayPaymentId: z.string().trim().min(1).max(120),
   razorpaySignature: z.string().trim().min(1).max(256),
+  // Used only if the orders table isn't available, so the buyer still gets their email.
+  name: z.string().trim().max(120).optional(),
+  email: z.string().trim().email().max(200).optional(),
 });
 
-export type VerifyPaymentResult = { ok: boolean; error?: "verify_failed" };
+export type VerifyPaymentInput = z.infer<typeof verifySchema>;
+
+export type VerifyPaymentResult =
+  { ok: true; accessUrl: string | null } | { ok: false; error: "verify_failed" };
 
 export const verifyPayment = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => verifySchema.parse(data))
@@ -69,5 +82,14 @@ export const verifyPayment = createServerFn({ method: "POST" })
       data.razorpayPaymentId,
       data.razorpaySignature,
     );
-    return verified ? { ok: true } : { ok: false, error: "verify_failed" };
+    if (!verified) return { ok: false, error: "verify_failed" };
+
+    const { fulfillPaidOrder, getAccessUrl } = await import("./fulfillment.server");
+    await fulfillPaidOrder({
+      orderId: data.razorpayOrderId,
+      paymentId: data.razorpayPaymentId,
+      via: "checkout",
+      fallbackBuyer: data.email ? { name: data.name ?? "", email: data.email } : undefined,
+    });
+    return { ok: true, accessUrl: getAccessUrl() };
   });

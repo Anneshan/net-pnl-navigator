@@ -54,6 +54,27 @@ function toHex(buffer: ArrayBuffer): string {
   return hex;
 }
 
+async function hmacSha256Hex(secret: string, message: string): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(message));
+  return toHex(mac);
+}
+
+function timingSafeEqualHex(expected: string, received: string): boolean {
+  const a = expected.toLowerCase();
+  const b = received.toLowerCase();
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 /** Verifies Razorpay's checkout signature: HMAC-SHA256(secret, `${orderId}|${paymentId}`). */
 export async function verifyRazorpaySignature(
   orderId: string,
@@ -62,26 +83,12 @@ export async function verifyRazorpaySignature(
 ): Promise<boolean> {
   const { keySecret } = getRazorpayCredentials();
   if (!keySecret) return false;
+  return timingSafeEqualHex(await hmacSha256Hex(keySecret, `${orderId}|${paymentId}`), signature);
+}
 
-  const key = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(keySecret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
-  const mac = await crypto.subtle.sign(
-    "HMAC",
-    key,
-    new TextEncoder().encode(`${orderId}|${paymentId}`),
-  );
-
-  const expected = toHex(mac);
-  const received = signature.toLowerCase();
-  if (expected.length !== received.length) return false;
-  let diff = 0;
-  for (let i = 0; i < expected.length; i++) {
-    diff |= expected.charCodeAt(i) ^ received.charCodeAt(i);
-  }
-  return diff === 0;
+/** Verifies a webhook: HMAC-SHA256(RAZORPAY_WEBHOOK_SECRET, rawBody) === X-Razorpay-Signature. */
+export async function verifyRazorpayWebhook(rawBody: string, signature: string): Promise<boolean> {
+  const secret = process.env["RAZORPAY_WEBHOOK_SECRET"];
+  if (!secret || !signature) return false;
+  return timingSafeEqualHex(await hmacSha256Hex(secret, rawBody), signature);
 }
