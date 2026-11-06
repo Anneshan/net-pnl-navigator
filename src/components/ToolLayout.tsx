@@ -264,3 +264,47 @@ export const n = (v: string) => {
   const x = parseFloat(v);
   return Number.isFinite(x) ? x : 0;
 };
+
+// ------------------------------------------------------------- fee presets
+
+export const feePresets = [
+  { id: "delta-taker", label: "Delta India · market", entry: "0.05", exit: "0.05", gst: "18" },
+  { id: "delta-maker", label: "Delta India · limit", entry: "0.02", exit: "0.02", gst: "18" },
+  { id: "custom", label: "Custom", entry: "", exit: "", gst: "" },
+] as const;
+
+export type FeePresetId = (typeof feePresets)[number]["id"];
+
+export function FeePresetPicker({
+  value,
+  onPick,
+}: {
+  value: FeePresetId;
+  onPick: (p: (typeof feePresets)[number]) => void;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <p className="text-sm text-foreground">Exchange fees</p>
+      <div className="flex flex-wrap gap-2">
+        {feePresets.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            aria-pressed={value === p.id}
+            onClick={() => onPick(p)}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+              value === p.id
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-input text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {p.label}
+          </button>
+        ))}
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Delta Exchange India futures: 0.05% taker, 0.02% maker, plus 18% GST on fees.
+      </p>
+    </div>
+  );
+}

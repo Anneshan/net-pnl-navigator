@@ -1,6 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { NumField, Stat, ToolLayout, Toggle, n, toolHead } from "@/components/ToolLayout";
+import {
+  FeePresetPicker,
+  NumField,
+  Stat,
+  ToolLayout,
+  Toggle,
+  n,
+  toolHead,
+  type FeePresetId,
+} from "@/components/ToolLayout";
 import { calcNetPnl, fmtMoney, fmtNum, type Side } from "@/lib/calculators";
 
 export const Route = createFileRoute("/tools/net-pnl-calculator")({
@@ -35,8 +44,13 @@ function NetPnlPage() {
     funding: "0.01",
     hours: "48",
     other: "0",
+    gst: "18",
   });
-  const set = (k: keyof typeof f) => (v: string) => setF((p) => ({ ...p, [k]: v }));
+  const [preset, setPreset] = useState<FeePresetId>("delta-taker");
+  const set = (k: keyof typeof f) => (v: string) => {
+    if (k === "entryFee" || k === "exitFee" || k === "gst") setPreset("custom");
+    setF((p) => ({ ...p, [k]: v }));
+  };
 
   const r = useMemo(
     () =>
@@ -51,6 +65,7 @@ function NetPnlPage() {
         fundingRatePct: n(f.funding),
         holdingHours: n(f.hours),
         otherCosts: n(f.other),
+        gstPct: n(f.gst),
       }),
     [side, f],
   );
@@ -83,6 +98,14 @@ function NetPnlPage() {
               onChange={setCurrency}
             />
           </div>
+          <FeePresetPicker
+            value={preset}
+            onPick={(p) => {
+              setPreset(p.id);
+              if (p.id !== "custom")
+                setF((x) => ({ ...x, entryFee: p.entry, exitFee: p.exit, gst: p.gst }));
+            }}
+          />
           <div className="grid grid-cols-2 gap-4">
             <NumField
               id="entry"
@@ -113,7 +136,7 @@ function NetPnlPage() {
               value={f.entryFee}
               onChange={set("entryFee")}
               suffix="%"
-              hint="Taker ~0.05%, maker ~0.02%"
+              hint="Before GST"
             />
             <NumField
               id="exitFee"
@@ -121,6 +144,14 @@ function NetPnlPage() {
               value={f.exitFee}
               onChange={set("exitFee")}
               suffix="%"
+            />
+            <NumField
+              id="gst"
+              label="GST on fees"
+              value={f.gst}
+              onChange={set("gst")}
+              suffix="%"
+              hint="18% on Indian exchanges, 0 elsewhere"
             />
             <NumField
               id="funding"
@@ -156,7 +187,9 @@ function NetPnlPage() {
             <table className="w-full font-mono text-xs">
               <tbody className="[&_td]:px-3 [&_td]:py-2.5 [&_tr]:border-b [&_tr]:border-border/60 [&_tr:last-child]:border-0">
                 <tr>
-                  <td className="text-muted-foreground">Trading fees</td>
+                  <td className="text-muted-foreground">
+                    Trading fees{n(f.gst) > 0 ? ` (incl. ${f.gst}% GST)` : ""}
+                  </td>
                   <td className="text-right text-pnl-negative">{m(-r.fees)}</td>
                 </tr>
                 <tr>
@@ -222,13 +255,16 @@ function Explainer() {
           quantity for shorts.
         </li>
         <li>
-          <strong>Fees</strong> = entry value × entry fee % + exit value × exit fee %. Fees are
-          charged on the full position size, not your margin — so 10× leverage means 10× the fees on
-          your capital.
+          <strong>Fees</strong> = (entry value × entry fee % + exit value × exit fee %) × (1 + GST).
+          Indian exchanges like Delta Exchange add 18% GST on trading fees, so a 0.05% taker fee
+          really costs about 0.059%. Fees are charged on the full position size, not your margin —
+          so 10× leverage means 10× the fees on your capital.
         </li>
         <li>
           <strong>Funding</strong> = position value × funding rate × number of 8-hour funding times
-          you held through. When the rate is positive, longs pay shorts.
+          you held through (on Delta Exchange India: 5:30am, 1:30pm and 9:30pm IST). When the rate
+          is positive, longs pay shorts. Funding carries no GST — it&rsquo;s paid between traders,
+          not to the exchange.
         </li>
         <li>
           <strong>Break-even exit</strong> is the price where all of the above nets to zero.

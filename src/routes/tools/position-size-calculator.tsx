@@ -33,6 +33,7 @@ function PositionSizePage() {
     lev: "10",
     fee: "0.05",
     mmr: "0.5",
+    gst: "18",
   });
   const set = (k: keyof typeof f) => (v: string) => setF((p) => ({ ...p, [k]: v }));
 
@@ -47,6 +48,7 @@ function PositionSizePage() {
         leverage: n(f.lev),
         feePct: n(f.fee),
         maintenanceMarginPct: n(f.mmr),
+        gstPct: n(f.gst),
       }),
     [side, f],
   );
@@ -133,7 +135,22 @@ function PositionSizePage() {
               suffix={currency}
             />
             <NumField id="lev" label="Leverage" value={f.lev} onChange={set("lev")} suffix="×" />
-            <NumField id="fee" label="Taker fee" value={f.fee} onChange={set("fee")} suffix="%" />
+            <NumField
+              id="fee"
+              label="Taker fee"
+              value={f.fee}
+              onChange={set("fee")}
+              suffix="%"
+              hint="Delta India: 0.05%"
+            />
+            <NumField
+              id="gst"
+              label="GST on fees"
+              value={f.gst}
+              onChange={set("gst")}
+              suffix="%"
+              hint="18% in India"
+            />
             <NumField
               id="mmr"
               label="Maintenance margin"
@@ -203,7 +220,8 @@ function Explainer() {
           stop is hit.
         </li>
         <li>
-          <strong>Loss per coin</strong> = distance from entry to stop + entry and exit fees.
+          <strong>Loss per coin</strong> = distance from entry to stop + entry and exit fees (with
+          18% GST on Indian exchanges).
         </li>
         <li>
           <strong>Position size</strong> = risk amount ÷ loss per coin.

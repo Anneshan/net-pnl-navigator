@@ -17,6 +17,7 @@ export interface NetPnlInput {
   fundingRatePct: number; // per 8h funding interval, e.g. 0.01
   holdingHours: number;
   otherCosts: number; // gas, withdrawal, etc. in quote currency
+  gstPct?: number | undefined; // GST charged on trading fees (18% on Indian exchanges)
 }
 
 export interface NetPnlResult {
@@ -43,7 +44,8 @@ export function calcNetPnl(i: NetPnlInput): NetPnlResult {
   const margin = entryNotional / lev;
 
   const grossPnl = (i.exitPrice - i.entryPrice) * i.quantity * dir;
-  const fees = entryNotional * pct(i.entryFeePct) + exitNotional * pct(i.exitFeePct);
+  const gst = 1 + pct(i.gstPct ?? 0);
+  const fees = (entryNotional * pct(i.entryFeePct) + exitNotional * pct(i.exitFeePct)) * gst;
   const fundingIntervals = Math.max(0, Math.floor(i.holdingHours / 8));
   // Positive funding rate: longs pay shorts.
   const funding = entryNotional * pct(i.fundingRatePct) * fundingIntervals * dir;
@@ -51,8 +53,8 @@ export function calcNetPnl(i: NetPnlInput): NetPnlResult {
   const netPnl = grossPnl - totalCosts;
 
   const q = i.quantity;
-  const fe = pct(i.entryFeePct);
-  const fx = pct(i.exitFeePct);
+  const fe = pct(i.entryFeePct) * gst;
+  const fx = pct(i.exitFeePct) * gst;
   const fixed = funding + i.otherCosts;
   let breakEvenExit: number | null = null;
   if (q > 0) {
@@ -91,6 +93,7 @@ export interface PositionSizeInput {
   leverage: number;
   feePct: number; // taker fee per side
   maintenanceMarginPct: number; // e.g. 0.5
+  gstPct?: number | undefined;
 }
 
 export interface PositionSizeResult {
@@ -113,7 +116,8 @@ export function calcPositionSize(i: PositionSizeInput): PositionSizeResult {
   const stopDistancePct = i.entryPrice > 0 ? (stopDistance / i.entryPrice) * 100 : 0;
 
   // Loss per unit if the stop is hit, including fees on entry and exit.
-  const perUnitLoss = stopDistance + (i.entryPrice + i.stopPrice) * pct(i.feePct);
+  const perUnitLoss =
+    stopDistance + (i.entryPrice + i.stopPrice) * pct(i.feePct) * (1 + pct(i.gstPct ?? 0));
   const quantity = stopIsValid && perUnitLoss > 0 ? riskAmount / perUnitLoss : 0;
   const notional = quantity * i.entryPrice;
   const lev = i.leverage > 0 ? i.leverage : 1;

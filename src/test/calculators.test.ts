@@ -34,6 +34,13 @@ describe("calcNetPnl", () => {
     expect(shortBe.netPnl).toBeCloseTo(0, 6);
   });
 
+  it("adds GST on top of fees", () => {
+    const r = calcNetPnl({ ...base, gstPct: 18 });
+    expect(r.fees).toBeCloseTo((1000 * 0.0005 + 1100 * 0.0005) * 1.18);
+    const atBe = calcNetPnl({ ...base, gstPct: 18, exitPrice: r.breakEvenExit! });
+    expect(atBe.netPnl).toBeCloseTo(0, 6);
+  });
+
   it("shorts receive positive funding", () => {
     const r = calcNetPnl({ ...base, side: "short", exitPrice: 90 });
     expect(r.grossPnl).toBe(100);
