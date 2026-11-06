@@ -81,15 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Amniverse Crypto Trading Journal" },
       {
         name: "description",
-        content:
-          "True Net PnL, position sizing and Section 115BBH crypto tax tracking for Indian traders.",
+        content: "True Net PnL, position sizing and crypto tax tracking for Indian traders.",
       },
       { name: "author", content: "Amniverse Advisory" },
       { property: "og:title", content: "Amniverse Crypto Trading Journal" },
       {
         property: "og:description",
-        content:
-          "True Net PnL, position sizing and Section 115BBH crypto tax tracking for Indian traders.",
+        content: "True Net PnL, position sizing and crypto tax tracking for Indian traders.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

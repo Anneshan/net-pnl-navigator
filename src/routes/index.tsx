@@ -276,8 +276,8 @@ function Hero() {
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             Track true <span className="font-semibold text-foreground">Net PnL</span>, size
-            positions like an institution, and automatically audit your{" "}
-            <span className="font-semibold text-foreground">Section 115BBH tax liability</span> with
+            positions like an institution, and keep a{" "}
+            <span className="font-semibold text-foreground">CA-ready crypto tax summary</span> with
             the{" "}
             <span className="font-semibold text-foreground">Amniverse Crypto Trading Journal</span>.
           </p>
@@ -378,8 +378,8 @@ const features = [
   },
   {
     kicker: "Module 04",
-    title: "Section 115BBH Tax Engine",
-    body: "Automates Section 115BBH 30% VDA tax calculations, enforces zero loss set-off rules, reconciles Section 194S TDS credits, and exports ready-to-file Schedule VDA reports for ITR-2/ITR-3.",
+    title: "Crypto Tax Summary",
+    body: "Estimates Section 115BBH 30% VDA tax on spot sales (no loss set-off), tracks your Section 194S TDS credits, and summarises Schedule VDA figures for ITR-2/ITR-3. India hasn't ruled on how crypto futures are taxed, so hand the summary to your CA to confirm before you file.",
   },
 ];
 
@@ -459,7 +459,7 @@ const included = [
   "The Amniverse Crypto Trading Journal (Spot & Perps)",
   "The Automated Position Sizing Tool",
   "The Visual Performance Dashboard",
-  "The Section 115BBH Tax Engine (Schedule VDA export)",
+  "The Crypto Tax Summary (115BBH estimate + TDS tracker, for your CA)",
   "Step-by-step instructions to lock your formulas and secure your data",
 ];
 
@@ -615,6 +615,10 @@ const faqs = [
     q: "How do I get access after paying?",
     a: "Right after a successful UPI or card payment, your private access link appears on the confirmation screen, and the same link plus setup instructions is emailed to you.",
   },
+  {
+    q: "Does the tax summary work for Delta Exchange futures?",
+    a: "It logs your futures PnL, but India hasn't issued a ruling on how INR-settled crypto futures are taxed. Some CAs treat them as 30% VDA income under Section 115BBH; others treat them as speculative business income at your slab rate. The journal gives you the numbers — confirm the treatment with your CA before you file.",
+  },
 ];
 
 function FAQ() {
@@ -720,8 +724,8 @@ const freeTools = [
   },
   {
     to: "/tools/crypto-tax-calculator",
-    title: "Crypto Tax (115BBH)",
-    body: "30% VDA tax, TDS and the no-set-off hit.",
+    title: "Crypto Tax (India)",
+    body: "Spot 115BBH tax, plus Delta futures under both readings.",
   },
 ] as const;
 

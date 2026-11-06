@@ -13,13 +13,13 @@ export const Route = createFileRoute("/checkout")({
       {
         name: "description",
         content:
-          "One-time ₹999 payment for the Amniverse Crypto Trading Journal — true Net PnL tracking, the 'Never Liquidated' position sizer and the Section 115BBH Tax Engine. Secure checkout via UPI / cards / netbanking.",
+          "One-time ₹999 payment for the Amniverse Crypto Trading Journal — true Net PnL tracking, the 'Never Liquidated' position sizer and a CA-ready crypto tax summary. Secure checkout via UPI / cards / netbanking.",
       },
       { property: "og:title", content: "Secure Checkout — Amniverse Crypto Trading Journal" },
       {
         property: "og:description",
         content:
-          "One-time ₹999 payment. True Net PnL tracking, institutional position sizing and the Section 115BBH Tax Engine.",
+          "One-time ₹999 payment. True Net PnL tracking, institutional position sizing and a CA-ready crypto tax summary.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -257,7 +257,7 @@ function Checkout() {
                 <li>+ True Net PnL calculator</li>
                 <li>+ &ldquo;Never Liquidated&rdquo; position sizer</li>
                 <li>+ Visual performance dashboard</li>
-                <li>+ Section 115BBH Tax Engine</li>
+                <li>+ Crypto tax summary (115BBH estimate + TDS)</li>
               </ul>
               <div className="mt-6 border-t border-border pt-4">
                 <p className="font-mono text-xs text-muted-foreground line-through">

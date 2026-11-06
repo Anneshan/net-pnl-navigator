@@ -5,7 +5,7 @@ export const Route = createFileRoute("/tools/")({
   head: () =>
     toolHead(
       "Free Crypto Trading Calculators — Net PnL, Position Size, India Tax | Amniverse",
-      "Free calculators for crypto traders: true Net PnL after fees and funding, position size and liquidation price, and India's Section 115BBH crypto tax.",
+      "Free calculators for crypto traders: true Net PnL after fees and funding, position size and liquidation price, and India crypto tax for spot and Delta futures.",
     ),
   component: ToolsIndex,
 });
@@ -26,8 +26,8 @@ const tools = [
   {
     to: "/tools/crypto-tax-calculator",
     kicker: "Tool 03",
-    title: "Crypto Tax (115BBH)",
-    body: "Estimate 30% VDA tax + cess, net off TDS, and see what the no-loss-set-off rule costs you.",
+    title: "Crypto Tax (India)",
+    body: "Spot 115BBH tax with TDS credit, plus Delta INR futures under both tax readings side by side.",
   },
 ] as const;
 

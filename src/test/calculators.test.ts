@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calcNetPnl, calcPositionSize, calcVdaTax } from "@/lib/calculators";
+import { calcFuturesTax, calcNetPnl, calcPositionSize, calcVdaTax } from "@/lib/calculators";
 
 describe("calcNetPnl", () => {
   const base = {
@@ -111,5 +111,23 @@ describe("calcVdaTax", () => {
     expect(r.tdsCredit).toBeCloseTo(2000);
     expect(r.balancePayable).toBeCloseTo(13600);
     expect(r.taxIfLossesCouldOffset).toBeCloseTo(20000 * 0.312);
+  });
+});
+
+describe("calcFuturesTax", () => {
+  it("shows VDA vs business-income readings", () => {
+    const r = calcFuturesTax([50000, -30000, 10000], 20);
+    expect(r.totalProfits).toBe(60000);
+    expect(r.totalLosses).toBe(30000);
+    expect(r.vdaTax).toBeCloseTo(60000 * 0.312);
+    expect(r.businessTax).toBeCloseTo(30000 * 0.2 * 1.04);
+    expect(r.lossToCarryForward).toBe(0);
+  });
+
+  it("carries forward a net loss under business treatment", () => {
+    const r = calcFuturesTax([10000, -25000], 30);
+    expect(r.businessTax).toBe(0);
+    expect(r.lossToCarryForward).toBe(15000);
+    expect(r.vdaTax).toBeCloseTo(3120);
   });
 });

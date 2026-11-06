@@ -12,7 +12,7 @@ export const toolLinks = [
   },
   {
     to: "/tools/crypto-tax-calculator",
-    label: "Crypto Tax (115BBH) Calculator",
+    label: "Crypto Tax Calculator (India)",
     short: "Crypto Tax",
   },
 ] as const;
@@ -93,7 +93,7 @@ export function ToolLayout({
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
               The Amniverse Journal logs every trade with true Net PnL, sizes positions, tracks your
-              equity curve and builds your Schedule VDA tax report.
+              equity curve and keeps a tax summary ready for your CA.
             </p>
           </div>
           <Link to="/" hash="pricing" className="btn-primary shrink-0 px-5 py-3 text-sm">

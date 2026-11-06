@@ -228,3 +228,42 @@ export function fmtMoney(value: number, currency: string): string {
 export function fmtNum(value: number, maxDigits = 4): string {
   return value.toLocaleString("en-IN", { maximumFractionDigits: maxDigits });
 }
+
+// ------------------------------------ INR-settled crypto futures (e.g. Delta)
+// The treatment is unsettled in India, so show both readings side by side.
+
+export interface FuturesTaxResult {
+  totalProfits: number; // sum of profitable closes
+  totalLosses: number; // sum of losing closes, as a positive number
+  netPnl: number;
+  // Reading A — conservative: treat as VDA under Section 115BBH.
+  vdaTax: number; // 30% + cess on profitable closes only, losses ignored
+  // Reading B — speculative business income at your slab rate.
+  businessTaxable: number; // profits minus losses (never below 0)
+  businessTax: number; // slab rate + cess on the net
+  lossToCarryForward: number; // net speculative loss, if any
+  difference: number; // vdaTax − businessTax
+}
+
+export function calcFuturesTax(closedPnls: number[], slabRatePct: number): FuturesTaxResult {
+  let totalProfits = 0;
+  let totalLosses = 0;
+  for (const p of closedPnls) {
+    if (p > 0) totalProfits += p;
+    else totalLosses += -p;
+  }
+  const netPnl = totalProfits - totalLosses;
+  const vdaTax = totalProfits * VDA_TAX_RATE * (1 + CESS_RATE);
+  const businessTaxable = Math.max(0, netPnl);
+  const businessTax = businessTaxable * pct(slabRatePct) * (1 + CESS_RATE);
+  return {
+    totalProfits,
+    totalLosses,
+    netPnl,
+    vdaTax,
+    businessTaxable,
+    businessTax,
+    lossToCarryForward: Math.max(0, -netPnl),
+    difference: vdaTax - businessTax,
+  };
+}
