@@ -480,6 +480,24 @@ function Footer() {
   );
 }
 
+function WhatsAppFloat() {
+  return (
+    <a
+      href="https://wa.me/918134959078?text=Hi%20Amniverse%20Advisory%2C%20I%20have%20a%20question%20about%20the%20Crypto%20Trading%20Journal."
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Chat with Amniverse Advisory on WhatsApp"
+      title="Chat with us on WhatsApp"
+      className="fixed bottom-5 right-5 z-[60] inline-flex min-h-14 items-center gap-3 rounded-full border border-background/20 bg-primary px-4 text-primary-foreground shadow-xl transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:bottom-7 sm:right-7"
+    >
+      <svg viewBox="0 0 32 32" className="h-7 w-7 shrink-0" fill="currentColor" aria-hidden="true">
+        <path d="M16.02 3.2A12.74 12.74 0 0 0 5.1 22.51L3.3 29l6.64-1.74a12.74 12.74 0 1 0 6.08-24.06Zm0 23.18c-1.9 0-3.77-.51-5.4-1.48l-.39-.23-3.94 1.03 1.05-3.84-.25-.4a10.42 10.42 0 1 1 8.93 4.92Zm5.72-7.81c-.31-.16-1.85-.91-2.14-1.02-.29-.1-.5-.15-.71.16-.2.31-.82 1.02-1 1.23-.19.2-.37.23-.68.07-.31-.15-1.31-.48-2.5-1.53-.92-.82-1.54-1.84-1.72-2.15-.18-.31-.02-.48.14-.64.14-.14.31-.37.46-.55.15-.18.2-.31.31-.52.1-.2.05-.39-.03-.55-.08-.15-.71-1.7-.98-2.32-.26-.6-.52-.51-.71-.52h-.61c-.2 0-.55.08-.84.39-.29.31-1.1 1.07-1.1 2.61s1.13 3.03 1.28 3.24c.16.2 2.22 3.39 5.38 4.75.75.32 1.34.52 1.8.66.75.24 1.43.2 1.97.12.6-.09 1.85-.76 2.11-1.49.26-.74.26-1.36.18-1.49-.08-.13-.28-.21-.59-.36Z" />
+      </svg>
+      <span className="hidden text-sm font-semibold sm:inline">Chat with us</span>
+    </a>
+  );
+}
+
 const faqs = [
   {
     q: "Do I need Microsoft Excel?",
@@ -601,6 +619,7 @@ function Index() {
         <Pricing />
       </main>
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 }
