@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { business } from "@/lib/business";
 
 export const policyLinks = [
+  { to: "/tools", label: "Free Tools" },
   { to: "/terms", label: "Terms & Conditions" },
   { to: "/privacy", label: "Privacy Policy" },
   { to: "/refund-policy", label: "Refund & Cancellation" },

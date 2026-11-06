@@ -17,6 +17,10 @@ import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ApiRazorpayWebhookRouteImport } from './routes/api/razorpay-webhook'
+import { Route as ToolsIndexRouteImport } from './routes/tools/index'
+import { Route as ToolsCryptoTaxCalculatorRouteImport } from './routes/tools/crypto-tax-calculator'
+import { Route as ToolsNetPnlCalculatorRouteImport } from './routes/tools/net-pnl-calculator'
+import { Route as ToolsPositionSizeCalculatorRouteImport } from './routes/tools/position-size-calculator'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +62,28 @@ const ApiRazorpayWebhookRoute = ApiRazorpayWebhookRouteImport.update({
   path: '/api/razorpay-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/tools/',
+  path: '/tools/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsCryptoTaxCalculatorRoute =
+  ToolsCryptoTaxCalculatorRouteImport.update({
+    id: '/tools/crypto-tax-calculator',
+    path: '/tools/crypto-tax-calculator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ToolsNetPnlCalculatorRoute = ToolsNetPnlCalculatorRouteImport.update({
+  id: '/tools/net-pnl-calculator',
+  path: '/tools/net-pnl-calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsPositionSizeCalculatorRoute =
+  ToolsPositionSizeCalculatorRouteImport.update({
+    id: '/tools/position-size-calculator',
+    path: '/tools/position-size-calculator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +94,10 @@ export interface FileRoutesByFullPath {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/terms': typeof TermsRoute
   '/api/razorpay-webhook': typeof ApiRazorpayWebhookRoute
+  '/tools/crypto-tax-calculator': typeof ToolsCryptoTaxCalculatorRoute
+  '/tools/net-pnl-calculator': typeof ToolsNetPnlCalculatorRoute
+  '/tools/position-size-calculator': typeof ToolsPositionSizeCalculatorRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +108,10 @@ export interface FileRoutesByTo {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/terms': typeof TermsRoute
   '/api/razorpay-webhook': typeof ApiRazorpayWebhookRoute
+  '/tools/crypto-tax-calculator': typeof ToolsCryptoTaxCalculatorRoute
+  '/tools/net-pnl-calculator': typeof ToolsNetPnlCalculatorRoute
+  '/tools/position-size-calculator': typeof ToolsPositionSizeCalculatorRoute
+  '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +123,10 @@ export interface FileRoutesById {
   '/shipping-policy': typeof ShippingPolicyRoute
   '/terms': typeof TermsRoute
   '/api/razorpay-webhook': typeof ApiRazorpayWebhookRoute
+  '/tools/crypto-tax-calculator': typeof ToolsCryptoTaxCalculatorRoute
+  '/tools/net-pnl-calculator': typeof ToolsNetPnlCalculatorRoute
+  '/tools/position-size-calculator': typeof ToolsPositionSizeCalculatorRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +139,10 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/terms'
     | '/api/razorpay-webhook'
+    | '/tools/crypto-tax-calculator'
+    | '/tools/net-pnl-calculator'
+    | '/tools/position-size-calculator'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +153,10 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/terms'
     | '/api/razorpay-webhook'
+    | '/tools/crypto-tax-calculator'
+    | '/tools/net-pnl-calculator'
+    | '/tools/position-size-calculator'
+    | '/tools'
   id:
     | '__root__'
     | '/'
@@ -121,6 +167,10 @@ export interface FileRouteTypes {
     | '/shipping-policy'
     | '/terms'
     | '/api/razorpay-webhook'
+    | '/tools/crypto-tax-calculator'
+    | '/tools/net-pnl-calculator'
+    | '/tools/position-size-calculator'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +182,10 @@ export interface RootRouteChildren {
   ShippingPolicyRoute: typeof ShippingPolicyRoute
   TermsRoute: typeof TermsRoute
   ApiRazorpayWebhookRoute: typeof ApiRazorpayWebhookRoute
+  ToolsCryptoTaxCalculatorRoute: typeof ToolsCryptoTaxCalculatorRoute
+  ToolsNetPnlCalculatorRoute: typeof ToolsNetPnlCalculatorRoute
+  ToolsPositionSizeCalculatorRoute: typeof ToolsPositionSizeCalculatorRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +246,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRazorpayWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/': {
+      id: '/tools/'
+      path: '/tools'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/crypto-tax-calculator': {
+      id: '/tools/crypto-tax-calculator'
+      path: '/tools/crypto-tax-calculator'
+      fullPath: '/tools/crypto-tax-calculator'
+      preLoaderRoute: typeof ToolsCryptoTaxCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/net-pnl-calculator': {
+      id: '/tools/net-pnl-calculator'
+      path: '/tools/net-pnl-calculator'
+      fullPath: '/tools/net-pnl-calculator'
+      preLoaderRoute: typeof ToolsNetPnlCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/position-size-calculator': {
+      id: '/tools/position-size-calculator'
+      path: '/tools/position-size-calculator'
+      fullPath: '/tools/position-size-calculator'
+      preLoaderRoute: typeof ToolsPositionSizeCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,6 +286,10 @@ const rootRouteChildren: RootRouteChildren = {
   ShippingPolicyRoute: ShippingPolicyRoute,
   TermsRoute: TermsRoute,
   ApiRazorpayWebhookRoute: ApiRazorpayWebhookRoute,
+  ToolsCryptoTaxCalculatorRoute: ToolsCryptoTaxCalculatorRoute,
+  ToolsNetPnlCalculatorRoute: ToolsNetPnlCalculatorRoute,
+  ToolsPositionSizeCalculatorRoute: ToolsPositionSizeCalculatorRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

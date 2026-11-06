@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { EmailSignup } from "@/components/EmailSignup";
 import { PolicyLinks } from "@/components/LegalPage";
 import { whatsappLink } from "@/lib/business";
 
@@ -77,6 +78,12 @@ function Nav() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Logo />
         <div className="flex items-center gap-3">
+          <Link
+            to="/tools"
+            className="hidden text-sm text-muted-foreground hover:text-foreground sm:block"
+          >
+            Free tools
+          </Link>
           <a
             href="#inside"
             className="hidden text-sm text-muted-foreground hover:text-foreground sm:block"
@@ -700,6 +707,58 @@ function WhoFor() {
   );
 }
 
+const freeTools = [
+  {
+    to: "/tools/net-pnl-calculator",
+    title: "Net PnL Calculator",
+    body: "Real profit after fees, funding & gas.",
+  },
+  {
+    to: "/tools/position-size-calculator",
+    title: "Position Size & Liquidation",
+    body: "Size from risk %, check liquidation.",
+  },
+  {
+    to: "/tools/crypto-tax-calculator",
+    title: "Crypto Tax (115BBH)",
+    body: "30% VDA tax, TDS and the no-set-off hit.",
+  },
+] as const;
+
+function FreeTools() {
+  return (
+    <section id="free-tools" className="border-t border-border py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
+          Try before you buy
+        </p>
+        <h2 className="mt-4 max-w-3xl font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Run the numbers on one trade — free
+        </h2>
+        <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
+          The same math that powers the journal, as free single-trade calculators. No sign-up.
+        </p>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {freeTools.map((t) => (
+            <Link
+              key={t.to}
+              to={t.to}
+              className="panel flex flex-col p-6 transition-colors hover:border-primary/50"
+            >
+              <h3 className="font-display text-lg font-semibold text-foreground">{t.title}</h3>
+              <p className="mt-2 flex-1 text-sm text-muted-foreground">{t.body}</p>
+              <span className="mt-4 text-sm font-semibold text-primary">Open free →</span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-10">
+          <EmailSignup source="home" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -712,6 +771,7 @@ function Index() {
         <WhoFor />
         <FAQ />
         <Pricing />
+        <FreeTools />
       </main>
       <Footer />
       <WhatsAppFloat />
